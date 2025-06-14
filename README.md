@@ -46,13 +46,4 @@ Download the executavel.exe and run. Or download main.c archive and compile in y
 
   ---
 
-📦 Sample Board
-
- X | O | 3
----|---|---
- 4 | X | O
----|---|---
- 7 | 8 | X
-In this example, player X has won on the main diagonal.
-
 Developed with 💻 by me.
