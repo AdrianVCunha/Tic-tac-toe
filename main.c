@@ -50,7 +50,7 @@ int main() {
 		makeMove(board, move, 2);
 		moves++;
 		showBoard(board);
-		winner = checkWinner(board, moves, 1);
+		winner = checkWinner(board, moves, 2);
 		if(winner!=0){
 			if(winner!=3){
 				showWinnerScreen(winner, board);
@@ -62,10 +62,9 @@ int main() {
 			}
 			
 		}
-
 										
 	}while (loop == 1);
-	printf("Thanks for play");
+	printf("Thanks for playing");
 	
 	
 	return 0;
@@ -111,17 +110,29 @@ void showBoard(char board[3][3]){
 //Function to check if the move is valid
 void checkMove(char board[3][3], char *move){
 	int loop = 1;
-	if(*move<='0'){
-		while(loop = 1){
-			printf("The move is invalid, please try again:\n");
-			printf("New move: ");
+	while(loop == 1){
+		if(*move < '1' || *move > '9'){
+			printf("This move is invalid. Please try again: ");
 			scanf(" %c", move);
-			checkMove(board, move);	
-			break;
-		}	
+			continue;
+		}
+		int found = 0;
+
+        for (int i = 0; i < 3 && !found; i++) {
+            for (int j = 0; j < 3 && !found; j++) {
+                if (board[i][j] == *move) {
+                    found = 1;
+                    loop = 0;
+                }
+            }
+        }
+
+        if (!found) {
+            printf("That cell is already taken. Try again: ");
+            scanf(" %c", move);
+        }
 	}
-	else if(move){
-	}
+	
 }
 //Function to make the move
 void makeMove(char board[3][3], char move, int player){
@@ -143,21 +154,16 @@ void makeMove(char board[3][3], char move, int player){
 int checkWinner(char board[3][3], int moves, int player){
 	int winner = 0;
 
-	if(moves>=5){
-		winner = checkRowWin(board);
-		if(winner == 0){
-			winner = checkDiagonalsWin(board);
-			if(winner == 0){
-				winner = checkCollumnWin(board);
-			}
-		}
-		else if(winner == 0 && moves == 9){
-			winner = 3;
-		}
-	}		
-	
-	
-	
+	winner = checkRowWin(board);
+    if(winner == 0){
+        winner = checkDiagonalsWin(board);
+    }
+    if(winner == 0){
+        winner = checkCollumnWin(board);
+    }
+    if(winner == 0 && moves > 9){
+        winner = 3;
+    }	
 	return winner;
 	
 }
